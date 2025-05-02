@@ -1,30 +1,22 @@
-# Cek Rekening
+# 🔍 Website Cek Nama Pemilik Rekening & E-Wallet
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+Website ini memungkinkan pengguna untuk mengecek **nama pemilik rekening bank maupun e-wallet (OVO, DANA, GoPay, dll)** berdasarkan nomor rekening/nomor HP dan nama bank/provider yang dimasukkan. Website ini menggunakan API dari [cekrekening.id](https://documenter.getpostman.com/view/31839079/2sAYQgi8yL).
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/nflsdqs-projects/cek-rekening)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/LTL1bHT05m1)
+🟢 **Live Website:** [https://cekrekening.naufalsidiq.xyz](https://cekrekening.naufalsidiq.xyz)
 
-## Overview
+---
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## 🚀 Fitur
 
-## Deployment
+- ✅ Cek nama pemilik **rekening bank** dan **e-wallet**
+- 🏦 Mendukung berbagai bank di Indonesia (BCA, BRI, Mandiri, dll)
+- 💳 Dukungan e-wallet seperti OVO, DANA, ShopeePay, GoPay, dan lainnya
+- 📱 Antarmuka yang responsif dan mudah digunakan
+- 🔐 Aman — data rekening dan e-wallet tidak disimpan
 
-Your project is live at:
+---
 
-**[https://vercel.com/nflsdqs-projects/cek-rekening](https://vercel.com/nflsdqs-projects/cek-rekening)**
+## 🔗 API Reference
 
-## Build your app
-
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/LTL1bHT05m1](https://v0.dev/chat/projects/LTL1bHT05m1)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+API digunakan dari:  
+[https://documenter.getpostman.com/view/31839079/2sAYQgi8yL](https://documenter.getpostman.com/view/31839079/2sAYQgi8yL)
