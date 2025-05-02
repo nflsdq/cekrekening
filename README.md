@@ -1,6 +1,6 @@
 # 🔍 Website Cek Nama Pemilik Rekening & E-Wallet
 
-Website ini memungkinkan pengguna untuk mengecek **nama pemilik rekening bank maupun e-wallet (OVO, DANA, GoPay, dll)** berdasarkan nomor rekening/nomor HP dan nama bank/provider yang dimasukkan. Website ini menggunakan API dari [cekrekening.id](https://documenter.getpostman.com/view/31839079/2sAYQgi8yL).
+Website ini memungkinkan pengguna untuk mengecek **nama pemilik rekening bank maupun e-wallet (OVO, DANA, GoPay, dll)** berdasarkan nomor rekening/nomor HP dan nama bank/provider yang dimasukkan.
 
 🟢 **Live Website:** [https://cekrekening.naufalsidiq.xyz](https://cekrekening.naufalsidiq.xyz)
 
