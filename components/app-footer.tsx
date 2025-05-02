@@ -22,15 +22,6 @@ export default function AppFooter() {
           <span>@nflsdq_</span>
         </a>
         <a
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-gray-900 dark:hover:text-white transition-colors flex items-center space-x-1"
-        >
-          <Github className="w-4 h-4" />
-          <span>GitHub</span>
-        </a>
-        <a
           href="https://documenter.getpostman.com/view/31839079/2sAYQgi8yL"
           target="_blank"
           rel="noopener noreferrer"
