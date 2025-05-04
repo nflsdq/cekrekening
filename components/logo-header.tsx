@@ -26,7 +26,7 @@ export default function LogoHeader() {
           <img 
             src="https://i.ibb.co.com/D2n3SJB/logo.png" 
             alt="Wallet Icon" 
-            className="w-12 h-12 md:w-16 md:h-16 object-contain"
+            className="w-14 h-14 md:w-18 md:h-18 object-contain"
           />
           <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-yellow-400 dark:bg-yellow-500 rounded-full border-2 border-black"></div>
         </div>
