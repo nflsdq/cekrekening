@@ -23,7 +23,12 @@ export default function LogoHeader() {
         className="relative"
       >
         <div className="inline-block p-5 neo-brutalism-shadow bg-blue-500 dark:bg-blue-600 rounded-lg mb-6 animate-float">
-          <Wallet className="w-12 h-12 md:w-16 md:h-16 text-white" />
+          <<img 
+            src="https://i.ibb.co.com/D2n3SJB/logo.png" 
+            alt="Wallet Icon" 
+            className="w-12 h-12 md:w-16 md:h-16 object-contain"
+          />
+
           <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-yellow-400 dark:bg-yellow-500 rounded-full border-2 border-black"></div>
         </div>
       </motion.div>
