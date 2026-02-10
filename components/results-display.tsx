@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Check, Copy, X, Loader2 } from "lucide-react"
+import { Check, Copy, X, Loader2, Share2 } from "lucide-react"
+import { toast } from "sonner"
 import type { AccountResult } from "@/lib/types"
+import { Button } from "@/components/ui/button"
 
 interface ResultsDisplayProps {
   result: AccountResult | null
@@ -20,12 +22,45 @@ export default function ResultsDisplay({ result, error, loading }: ResultsDispla
       await navigator.clipboard.writeText(text)
       setCopied(true)
       setCopiedField(field)
+      toast.success("Tersalin!", {
+        description: `${field === "name" ? "Nama pemilik" : "Nomor rekening"} berhasil disalin ke clipboard`
+      })
       setTimeout(() => {
         setCopied(false)
         setCopiedField(null)
       }, 2000)
     } catch (err) {
       console.error("Failed to copy text:", err)
+      toast.error("Gagal menyalin", {
+        description: "Terjadi kesalahan saat menyalin ke clipboard"
+      })
+    }
+  }
+
+  const shareResult = async () => {
+    if (!result || !result.success) return
+
+    const text = `✅ Rekening Ditemukan
+
+📱 ${result.data.account_number}
+👤 ${result.data.account_holder}
+🏦 ${result.data.account_bank}
+
+Dicek via Cek Rekening Indonesia`
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ text, title: "Hasil Cek Rekening" })
+        toast.success("Berhasil dibagikan!")
+      } else {
+        await navigator.clipboard.writeText(text)
+        toast.success("Tersalin ke clipboard!", {
+          description: "Browser tidak mendukung share, teks telah disalin"
+        })
+      }
+    } catch (err) {
+      // User cancelled share or error
+      console.error("Share failed:", err)
     }
   }
 
@@ -39,12 +74,32 @@ export default function ResultsDisplay({ result, error, loading }: ResultsDispla
       className="relative"
     >
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-16">
-          <div className="relative">
-            <Loader2 className="h-16 w-16 animate-spin text-pink-500 dark:text-pink-400" />
-            <div className="absolute inset-0 h-16 w-16 animate-ping rounded-full border-2 border-pink-500 dark:border-pink-400 opacity-20"></div>
+        <div className="space-y-4">
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="relative">
+              <Loader2 className="h-12 w-12 animate-spin text-pink-500 dark:text-pink-400" />
+              <div className="absolute inset-0 h-12 w-12 animate-ping rounded-full border-2 border-pink-500 dark:border-pink-400 opacity-20"></div>
+            </div>
+            <p className="mt-4 text-base font-medium text-gray-700 dark:text-gray-300 animate-pulse">
+              Memeriksa rekening...
+            </p>
           </div>
-          <p className="mt-6 text-lg font-medium text-gray-700 dark:text-gray-300">Memeriksa rekening...</p>
+
+          {/* Skeleton Cards */}
+          <div className="space-y-4 animate-pulse">
+            <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 neo-brutalism-shadow">
+              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3 mb-3"></div>
+              <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-2/3"></div>
+            </div>
+            <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 neo-brutalism-shadow">
+              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3 mb-3"></div>
+              <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4"></div>
+            </div>
+            <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 neo-brutalism-shadow">
+              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3 mb-3"></div>
+              <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+            </div>
+          </div>
         </div>
       ) : error ? (
         <motion.div
@@ -53,12 +108,25 @@ export default function ResultsDisplay({ result, error, loading }: ResultsDispla
           className="p-6 bg-red-100 dark:bg-red-900 neo-brutalism-shadow rounded-lg"
         >
           <div className="flex items-center mb-4">
-            <div className="p-2 bg-red-200 dark:bg-red-800 rounded-full mr-3">
-              <X className="w-6 h-6 text-red-700 dark:text-red-300" />
+            <div className="p-3 bg-red-200 dark:bg-red-800 rounded-full mr-3">
+              <X className="w-8 h-8 text-red-700 dark:text-red-300" />
             </div>
-            <p className="text-lg font-bold text-red-700 dark:text-red-300">Error</p>
+            <div>
+              <p className="text-lg font-bold text-red-700 dark:text-red-300">Terjadi Kesalahan</p>
+              <p className="text-sm text-red-600 dark:text-red-400">Silakan coba lagi</p>
+            </div>
           </div>
-          <p className="text-red-600 dark:text-red-200 font-medium">{error}</p>
+          <p className="text-red-600 dark:text-red-200 font-medium bg-red-50 dark:bg-red-950 p-3 rounded-lg border-2 border-red-300 dark:border-red-700">
+            {error}
+          </p>
+          <div className="mt-4 text-sm text-red-600 dark:text-red-300">
+            <p className="font-medium mb-2">Tips:</p>
+            <ul className="list-disc list-inside space-y-1 text-red-500 dark:text-red-400">
+              <li>Pastikan nomor rekening/HP sudah benar</li>
+              <li>Periksa koneksi internet Anda</li>
+              <li>Coba beberapa saat lagi</li>
+            </ul>
+          </div>
         </motion.div>
       ) : result ? (
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="relative">
@@ -203,6 +271,21 @@ export default function ResultsDisplay({ result, error, loading }: ResultsDispla
                   <div className="absolute top-0 left-0 w-2 h-full bg-purple-500"></div>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Bank/E-Wallet:</p>
                   <p className="text-xl font-bold text-gray-900 dark:text-white pl-2">{result.data.account_bank}</p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-4"
+                >
+                  <Button
+                    onClick={shareResult}
+                    className="w-full neo-brutalism-button bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white"
+                  >
+                    <Share2 className="w-4 h-4 mr-2" />
+                    Bagikan Hasil
+                  </Button>
                 </motion.div>
               </div>
             )}

@@ -1,7 +1,10 @@
 "use client"
 
+import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, RefreshCw, Trash, Clock, CreditCard, User } from "lucide-react"
+import { X, RefreshCw, Trash, Clock, CreditCard, User, Search, Filter } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import type { BankList, AccountResult } from "@/lib/types"
 
 type AccountType = "ewallet" | "bank"
@@ -24,12 +27,39 @@ interface HistorySidebarProps {
 }
 
 export default function HistorySidebar({ isOpen, onClose, history, onSelect, onClear, bankList }: HistorySidebarProps) {
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filterType, setFilterType] = useState<"all" | "bank" | "ewallet">("all")
+  const [filterStatus, setFilterStatus] = useState<"all" | "found" | "notfound">("all")
+
   const formatDate = (timestamp: number) => {
     return new Intl.DateTimeFormat("id-ID", {
       dateStyle: "medium",
       timeStyle: "short",
     }).format(new Date(timestamp))
   }
+
+  // Filtered history
+  const filteredHistory = useMemo(() => {
+    return history.filter((item) => {
+      // Search filter
+      const matchSearch =
+        item.number.includes(searchQuery) ||
+        item.result.data?.account_holder?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        bankList?.banks.find((b) => b.value === item.provider)?.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        bankList?.ewallets.find((e) => e.value === item.provider)?.label.toLowerCase().includes(searchQuery.toLowerCase())
+
+      // Type filter
+      const matchType = filterType === "all" || item.type === filterType
+
+      // Status filter
+      const matchStatus =
+        filterStatus === "all" ||
+        (filterStatus === "found" && item.result.success) ||
+        (filterStatus === "notfound" && !item.result.success)
+
+      return matchSearch && matchType && matchStatus
+    })
+  }, [history, searchQuery, filterType, filterStatus, bankList])
 
   return (
     <AnimatePresence>
@@ -51,8 +81,8 @@ export default function HistorySidebar({ isOpen, onClose, history, onSelect, onC
             className="fixed right-0 top-0 h-full w-full md:w-96 bg-white dark:bg-gray-800 shadow-lg z-50 overflow-hidden"
           >
             <div className="h-full flex flex-col">
-              <div className="p-4 border-b-2 border-gray-200 dark:border-gray-700 bg-blue-500 dark:bg-blue-600 text-white">
-                <div className="flex justify-between items-center">
+              <div className="p-4 bg-blue-500 dark:bg-blue-600 text-white">
+                <div className="flex justify-between items-center mb-4">
                   <h3 className="text-xl font-bold flex items-center">
                     <Clock className="h-5 w-5 mr-2" />
                     Riwayat Pencarian
@@ -77,6 +107,91 @@ export default function HistorySidebar({ isOpen, onClose, history, onSelect, onC
                     </motion.button>
                   </div>
                 </div>
+
+                {/* Search Input */}
+                <div className="relative mb-3">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Cari nomor atau nama..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-black"
+                  />
+                </div>
+
+                {/* Filter Buttons */}
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => setFilterType("all")}
+                      className={`flex-1 neo-brutalism-button ${
+                        filterType === "all"
+                          ? "bg-white text-blue-600"
+                          : "bg-blue-400 dark:bg-blue-700 text-white hover:bg-blue-300"
+                      }`}
+                    >
+                      Semua
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => setFilterType("bank")}
+                      className={`flex-1 neo-brutalism-button ${
+                        filterType === "bank"
+                          ? "bg-white text-blue-600"
+                          : "bg-blue-400 dark:bg-blue-700 text-white hover:bg-blue-300"
+                      }`}
+                    >
+                      Bank
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => setFilterType("ewallet")}
+                      className={`flex-1 neo-brutalism-button ${
+                        filterType === "ewallet"
+                          ? "bg-white text-blue-600"
+                          : "bg-blue-400 dark:bg-blue-700 text-white hover:bg-blue-300"
+                      }`}
+                    >
+                      E-Wallet
+                    </Button>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => setFilterStatus("all")}
+                      className={`flex-1 text-xs neo-brutalism-button ${
+                        filterStatus === "all"
+                          ? "bg-white text-blue-600"
+                          : "bg-blue-400 dark:bg-blue-700 text-white hover:bg-blue-300"
+                      }`}
+                    >
+                      Semua Status
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => setFilterStatus("found")}
+                      className={`flex-1 text-xs neo-brutalism-button ${
+                        filterStatus === "found"
+                          ? "bg-white text-blue-600"
+                          : "bg-blue-400 dark:bg-blue-700 text-white hover:bg-blue-300"
+                      }`}
+                    >
+                      Ditemukan
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => setFilterStatus("notfound")}
+                      className={`flex-1 text-xs neo-brutalism-button ${
+                        filterStatus === "notfound"
+                          ? "bg-white text-blue-600"
+                          : "bg-blue-400 dark:bg-blue-700 text-white hover:bg-blue-300"
+                      }`}
+                    >
+                      Tidak Ditemukan
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               <div className="flex-1 overflow-y-auto p-4">
@@ -90,9 +205,19 @@ export default function HistorySidebar({ isOpen, onClose, history, onSelect, onC
                       Riwayat pencarian akan muncul di sini setelah Anda melakukan pencarian rekening.
                     </p>
                   </div>
+                ) : filteredHistory.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-64 text-center">
+                    <div className="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 neo-brutalism-shadow">
+                      <Search className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+                    </div>
+                    <p className="text-lg font-bold mb-2 text-gray-700 dark:text-gray-300">Tidak Ada Hasil</p>
+                    <p className="text-gray-500 dark:text-gray-400 max-w-xs">
+                      Tidak ada riwayat yang cocok dengan filter yang Anda pilih.
+                    </p>
+                  </div>
                 ) : (
                   <div className="space-y-4">
-                    {history.map((item, index) => (
+                    {filteredHistory.map((item, index) => (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 10 }}

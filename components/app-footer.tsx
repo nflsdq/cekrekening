@@ -21,15 +21,6 @@ export default function AppFooter() {
           <Instagram className="w-4 h-4" />
           <span>@nflsdq_</span>
         </a>
-        <a
-          href="https://documenter.getpostman.com/view/31839079/2sAYQgi8yL"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-orange-500 dark:hover:text-orange-400 transition-colors flex items-center space-x-1"
-        >
-          <Flame className="w-4 h-4" />
-          <span>Api Source</span>
-        </a>
       </div>
 
       <div className="relative inline-block">
