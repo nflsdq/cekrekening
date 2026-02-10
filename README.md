@@ -1,69 +1,68 @@
-# 🔍 Website Cek Nama Pemilik Rekening & E-Wallet
+# Cek Rekening & E-Wallet Checker
 
-Website ini memungkinkan pengguna untuk mengecek **nama pemilik rekening bank maupun e-wallet (OVO, DANA, GoPay, dll)** berdasarkan nomor rekening/nomor HP dan nama bank/provider yang dimasukkan.
+Platform web modern untuk memverifikasi identitas pemilik rekening bank dan akun e-wallet di Indonesia secara akurat dan real-time. Project ini dirancang untuk meminimalisir kesalahan transfer dan penipuan dengan memvalidasi tujuan pembayaran sebelum transaksi dilakukan.
 
-🟢 **Live Website:** [https://cekrekening.naufalsidiq.xyz](https://cekrekening.naufalsidiq.xyz)
-
----
-
-## 🚀 Fitur
-
-- ✅ Cek nama pemilik **rekening bank** dan **e-wallet**
-- 🏦 Mendukung berbagai bank di Indonesia (BCA, BRI, Mandiri, dll)
-- 💳 Dukungan e-wallet seperti OVO, DANA, ShopeePay, GoPay, dan lainnya
-- 📱 Antarmuka yang responsif dan mudah digunakan
-- 🔐 Aman — data rekening dan e-wallet tidak disimpan
+Live Website: [https://cekrekening.naufalsidiq.xyz](https://cekrekening.naufalsidiq.xyz)
 
 ---
 
-## 🔗 API Reference
+## Fitur Utama
 
-API menggunakan mirror endpoints dengan fallback otomatis:
-- Primary: `https://rfpdevid.site`
-- Fallback: `https://rfpdev.me`
+- **Multi-Bank Support**: Mendukung pengecekan ke lebih dari 140 bank di Indonesia (BCA, Mandiri, BRI, BNI, BSI, Jenius, dll).
+- **E-Wallet Integration**: Dukungan luas untuk dompet digital populer (DANA, OVO, GoPay, ShopeePay, LinkAja, i.Saku).
+- **Real-time Verification**: Mendapatkan data nama pemilik rekening secara instan dengan latensi rendah.
+- **Privacy Focused**: Arsitektur *stateless* memastikan tidak ada data rekening atau nomor HP sensitif yang disimpan di database kami.
+- **Responsive Design**: Antarmuka pengguna yang adaptif untuk kenyamanan akses melalui Desktop, Tablet, maupun Mobile.
 
-### Endpoints
+## Teknologi yang Digunakan
 
-#### Check Rekening Bank
-- **Method:** `POST`
-- **Endpoint:** `/api/check-rekening`
-- **Content-Type:** `application/json`
-- **Body:**
-  ```json
-  {
-    "account_number": "string",
-    "bank_code": "string"
-  }
-  ```
+Project ini dibangun menggunakan standar pengembangan web modern untuk performa dan maintainability yang optimal:
 
-#### Check E-Wallet
-- **Method:** `POST`
-- **Endpoint:** `/api/check-ewallet`
-- **Content-Type:** `application/json`
-- **Body:**
-  ```json
-  {
-    "phone_number": "string",
-    "ewallet_code": "string"
-  }
-  ```
+- **Framework**: [Next.js](https://nextjs.org/) (App Router & Server Actions)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
 
-### Bank Codes
+## Memulai Pengembangan (Local Development)
 
-Aplikasi ini mendukung 140+ bank di Indonesia dengan kode seperti:
-- `bank_bca` - BCA
-- `bank_bri` - BRI
-- `bank_mandiri` - MANDIRI
-- `bank_bni` - BNI
-- dan lainnya...
+Ikuti langkah-langkah berikut untuk menjalankan project ini di lingkungan lokal Anda.
 
-### E-Wallet Codes
+### Prasyarat
 
-- `wallet_dana` - DANA
-- `wallet_ovo` - OVO
-- `gopay_user` - GOPAY USER
-- `gopay_driver` - GOPAY DRIVER
-- `wallet_shopeepay` - SHOPEEPAY
-- `wallet_linkaja` - LINK AJA
-- `grab_user` - GRAB USER
-- `wallet_isaku` - I.SAKU
+Pastikan Anda telah menginstal:
+- [Node.js](https://nodejs.org/) (Versi LTS disarankan)
+- [pnpm](https://pnpm.io/installation)
+
+### Instalasi
+
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/username/cekrekening.git
+   cd cekrekening
+   ```
+
+2. **Install dependencies**
+   Kami menggunakan `pnpm` untuk manajemen paket yang lebih cepat dan efisien.
+   ```bash
+   pnpm install
+   ```
+
+3. **Jalankan Development Server**
+   ```bash
+   pnpm dev
+   ```
+
+4. **Akses Aplikasi**
+   Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk melihat hasilnya.
+
+## Kontribusi
+
+Kontribusi sangat dihargai. Jika Anda memiliki saran fitur atau menemukan bug, silakan buat *issue* atau kirimkan *pull request*.
+
+## Lisensi
+
+Project ini dilisensikan di bawah lisensi [MIT](LICENSE).
+
+---
+
+*Dikembangkan untuk meningkatkan keamanan transaksi digital di Indonesia.*
