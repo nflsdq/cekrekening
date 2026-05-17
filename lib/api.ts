@@ -1,40 +1,14 @@
 import type { BankList, AccountResult } from "./types"
 import { BANK_DATA } from "./bank-data"
 
-// Mirror endpoints dengan fallback
-const API_MIRRORS = ["https://rfpdevid.site", "https://rfpdev.me"]
-
 /**
- * Fetch dengan fallback otomatis ke mirror endpoint
- * Akan mencoba mirror pertama, jika gagal (network error/timeout/5xx) akan coba mirror kedua
+ * Fetch ke route API lokal. API route server-side akan menangani proxy dan fallback mirror.
  */
 async function fetchWithFallback(
   endpoint: string,
   options: RequestInit
 ): Promise<Response> {
-  let lastError: Error | null = null
-
-  for (const baseUrl of API_MIRRORS) {
-    try {
-      const response = await fetch(`${baseUrl}${endpoint}`, options)
-
-      // Jika response 5xx, coba mirror berikutnya
-      if (response.status >= 500) {
-        lastError = new Error(`Server error: ${response.status}`)
-        continue
-      }
-
-      // Response berhasil atau 4xx (client error) langsung return
-      return response
-    } catch (error) {
-      // Network error atau timeout, coba mirror berikutnya
-      lastError = error as Error
-      continue
-    }
-  }
-
-  // Semua mirror gagal
-  throw lastError || new Error("All API mirrors failed")
+  return fetch(endpoint, options)
 }
 
 /**

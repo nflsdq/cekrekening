@@ -154,5 +154,7 @@ export const BANK_DATA: BankList = {
         { value: "wallet_linkaja", label: "LINK AJA" },
         { value: "grab_user", label: "GRAB USER" },
         { value: "wallet_isaku", label: "I.SAKU" },
+        { value: "wallet_astrapay", label: "ASTRA PAY" },
+        { value: "QRIS", label: "QRIS" },
     ],
 }
